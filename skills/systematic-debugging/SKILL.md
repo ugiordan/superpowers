@@ -126,21 +126,34 @@ You MUST complete each phase before proceeding to the next.
 1. **Find Working Examples**
    - Locate similar working code in same codebase
    - What works that's similar to what's broken?
+   - **Use project context** - If `.claude/context/testing-patterns.md` exists and debugging tests:
+     - Load it to understand how tests should be structured in this project
+     - Check test fixtures and setup patterns
+     - Verify mocking approach matches project conventions
 
 2. **Compare Against References**
    - If implementing pattern, read reference implementation COMPLETELY
    - Don't skim - read every line
    - Understand the pattern fully before applying
+   - **Check architectural context** - If `.claude/context/architecture.md` exists:
+     - Verify approach aligns with system architecture
+     - Understand component boundaries and data flow
 
 3. **Identify Differences**
    - What's different between working and broken?
    - List every difference, however small
    - Don't assume "that can't matter"
+   - **Check conventions** - If `.claude/context/conventions.md` exists:
+     - Compare against project coding patterns
+     - Verify naming and file organization matches
 
 4. **Understand Dependencies**
    - What other components does this need?
    - What settings, config, environment?
    - What assumptions does it make?
+   - **Check tech stack** - If `.claude/context/tech-stack.md` exists:
+     - Verify dependency versions match project requirements
+     - Check for known compatibility issues
 
 ### Phase 3: Hypothesis and Testing
 

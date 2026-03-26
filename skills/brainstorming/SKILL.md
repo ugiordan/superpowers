@@ -65,6 +65,12 @@ digraph brainstorming {
 - Check out the current project state first (files, docs, recent commits)
 - Before asking detailed questions, assess scope: if the request describes multiple independent subsystems (e.g., "build a platform with chat, file storage, billing, and analytics"), flag this immediately. Don't spend questions refining details of a project that needs to be decomposed first.
 - If the project is too large for a single spec, help the user decompose into sub-projects: what are the independent pieces, how do they relate, what order should they be built? Then brainstorm the first sub-project through the normal design flow. Each sub-project gets its own spec → plan → implementation cycle.
+- **Check for project context** - If `.claude/context/` exists, offer to load relevant context:
+  - `architecture.md` - Understand existing system structure
+  - `conventions.md` - Follow established patterns
+  - `tech-stack.md` - Use approved technologies
+  - `decisions.md` - Understand past architectural choices
+  - Ask user which context files to load (don't load all automatically)
 - For appropriately-scoped projects, ask questions one at a time to refine the idea
 - Prefer multiple choice questions when possible, but open-ended is fine too
 - Only one question per message - if a topic needs more exploration, break it into multiple questions
@@ -73,6 +79,11 @@ digraph brainstorming {
 **Exploring approaches:**
 
 - Propose 2-3 different approaches with trade-offs
+- **Use loaded context** - If project context was loaded:
+  - Align with existing architecture patterns from `architecture.md`
+  - Follow coding conventions from `conventions.md`
+  - Respect constraints from previous decisions in `decisions.md`
+  - Use technologies from `tech-stack.md`
 - Present options conversationally with your recommendation and reasoning
 - Lead with your recommended option and explain why
 

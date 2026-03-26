@@ -21,6 +21,143 @@ Dispatch superpowers:code-reviewer subagent to catch issues before they cascade.
 - Before refactoring (baseline check)
 - After fixing complex bug
 
+## Pre-Review Quality Gates
+
+Before requesting human code review, run automated quality checks to catch issues that tools can find.
+
+**Core principle**: Don't ask humans to review what automated tools can verify.
+
+### Automated Checks (Must Pass)
+
+Run these before requesting review:
+
+```bash
+# 1. Linting
+npm run lint        # or: flake8 ., cargo clippy, golangci-lint run
+
+# 2. Tests
+npm test           # or: pytest, cargo test, go test ./...
+
+# 3. Build
+npm run build      # or: cargo build, go build ./...
+
+# 4. Security scan
+npm audit --audit-level=high  # or: cargo audit, gosec ./...
+```
+
+**Exit codes must be 0** - if any check fails, fix it before requesting review.
+
+### Using Quality Gates Configuration
+
+If `.claude/quality-gates.yml` exists:
+
+```bash
+# Run all configured quality gates
+./run-quality-gates.sh
+```
+
+This runs all project-specific gates automatically. See `automated-quality-gates` skill for setup.
+
+### Verification Checklist
+
+Before requesting review, verify:
+
+- [ ] **Linter passes** with zero errors
+  - Run: `npm run lint` (or language equivalent)
+  - Exit code: 0
+  - No new warnings
+
+- [ ] **All tests pass**
+  - Run: `npm test` (or language equivalent)
+  - Exit code: 0
+  - No skipped tests without justification
+  - Coverage meets project threshold
+
+- [ ] **Build succeeds**
+  - Run: `npm run build` (or language equivalent)
+  - Exit code: 0
+  - No build warnings
+
+- [ ] **No new security vulnerabilities**
+  - Run: `npm audit --audit-level=high` (or equivalent)
+  - Exit code: 0 or only known/acceptable issues
+  - Document any exceptions
+
+- [ ] **Code actually works**
+  - Manually test one happy path
+  - Manually test one error case
+  - Behavior matches specification
+
+### Common Issues to Check
+
+**Before requesting review, verify these yourself:**
+
+**Error handling**:
+- [ ] External calls have error handling
+- [ ] Edge cases are handled
+- [ ] Error messages are helpful
+
+**Input validation**:
+- [ ] User input is validated at boundaries
+- [ ] Type checking is present
+- [ ] Range checking where applicable
+
+**Security**:
+- [ ] No hardcoded secrets or credentials
+- [ ] No SQL injection vulnerabilities
+- [ ] No XSS vulnerabilities
+- [ ] Input sanitized before use
+
+**Tests**:
+- [ ] New code has test coverage
+- [ ] Tests actually test the behavior
+- [ ] Edge cases are tested
+
+**Code quality**:
+- [ ] No commented-out code
+- [ ] No debug logging left in
+- [ ] No temporary hacks marked TODO
+
+### When Gates Fail
+
+**Fix before requesting review:**
+
+1. Read the actual error output (don't skim)
+2. Fix the underlying issue (don't just disable the check)
+3. Re-run the gate to verify fix
+4. Commit the fix
+
+**Never:**
+- Disable linter rules to make it pass
+- Skip tests with `.skip()` or `@skip`
+- Ignore security warnings without understanding them
+- Request review with failing gates
+
+### Rationale
+
+**Why automated checks first?**
+
+- Faster feedback than waiting for human reviewer
+- Catches obvious issues immediately
+- Reduces review cycle time
+- Lets human reviewer focus on architecture, logic, design
+- Shows respect for reviewer's time
+
+**What humans review:**
+- Architecture and design decisions
+- Business logic correctness
+- Code organization and clarity
+- Security implications beyond automated tools
+- Performance considerations
+- Edge cases that tools can't detect
+
+**What tools review:**
+- Syntax and style
+- Common bug patterns
+- Known security vulnerabilities
+- Test coverage
+- Build configuration
+
 ## How to Request
 
 **1. Get git SHAs:**
