@@ -113,16 +113,20 @@ Start a new session in your chosen platform and ask for something that should tr
 - **systematic-debugging** - 4-phase root cause process (includes root-cause-tracing, defense-in-depth, condition-based-waiting techniques)
 - **verification-before-completion** - Ensure it's actually fixed
 
-**Collaboration** 
+**Collaboration**
 - **brainstorming** - Socratic design refinement
 - **writing-plans** - Detailed implementation plans
 - **executing-plans** - Batch execution with checkpoints
 - **dispatching-parallel-agents** - Concurrent subagent workflows
+- **reflective-implementation** - Transparent AI implementation with multi-agent verification (planning → implementation → verification, 5 layers of explanation). Optional Serena MCP integration for semantic code operations
 - **requesting-code-review** - Pre-review checklist
 - **receiving-code-review** - Responding to feedback
 - **using-git-worktrees** - Parallel development branches
 - **finishing-a-development-branch** - Merge/PR decision workflow
 - **subagent-driven-development** - Fast iteration with two-stage review (spec compliance, then code quality)
+
+**Development Workflow**
+- **reflective-implementation** - Transparent AI implementation with human-in-the-loop reasoning and multi-agent verification. Use for complex features requiring architectural decisions, critical systems, and when you want to understand alternatives and trade-offs. Provides planning phase with approach comparison, implementation with decision announcements, verification with adversarial review and specialist analysis, and five layers of progressive explanation.
 
 **Meta**
 - **writing-skills** - Create new skills following best practices (includes testing methodology)
